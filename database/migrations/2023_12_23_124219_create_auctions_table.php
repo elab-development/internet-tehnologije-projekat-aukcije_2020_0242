@@ -16,8 +16,8 @@ class CreateAuctionsTable extends Migration
         Schema::create('auctions', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->timestamp('start');
-            $table->timestamp('end');
+            $table->timestamp('start_time')->nullable();
+            $table->timestamp('end_time')->nullable();
             $table->decimal('start_price');
             $table->enum('status', ['active', 'success', 'failed']);
         });
