@@ -39,6 +39,10 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
+        $user = $request->user();
+        if (!$user->admin) {
+            return response()->json(['message' => 'Unauthorized'], 403);
+        }
         $body = $request->all();
         $product = Product::create([
             "sold" => false,
@@ -69,6 +73,10 @@ class ProductController extends Controller
      */
     public function update(Request $request, Product $product)
     {
+        $user = $request->user();
+        if (!$user->admin) {
+            return response()->json(['message' => 'Unauthorized'], 403);
+        }
         $body = $request->all();
         $product->update($body);
         return response()->json(new ProductResource($product));
@@ -80,8 +88,12 @@ class ProductController extends Controller
      * @param  \App\Models\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Product $product)
+    public function destroy(Request $request, Product $product)
     {
+        $user = $request->user();
+        if (!$user->admin) {
+            return response()->json(['message' => 'Unauthorized'], 403);
+        }
         $product->delete();
         return response()->noContent();
     }
