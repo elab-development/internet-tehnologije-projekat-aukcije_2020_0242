@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\ProductCollection;
+use App\Http\Resources\ProductResource;
 use App\Models\Product;
 use Illuminate\Http\Request;
 
@@ -26,7 +28,7 @@ class ProductController extends Controller
             $where[] = ['sold', '=', boolval($sold)];
         }
         $products = Product::where($where)->paginate($size, ['*'], 'page', $page);
-        return response()->json($products);
+        return response()->json(new ProductCollection($products));
     }
 
     /**
@@ -38,8 +40,13 @@ class ProductController extends Controller
     public function store(Request $request)
     {
         $body = $request->all();
-        $product = Product::create($body);
-        return response()->json($product);
+        $product = Product::create([
+            "sold" => false,
+            "name" => $body['name'],
+            "description" => $body['description'],
+            "image" => $body['image']
+        ]);
+        return response()->json(new ProductResource($product));
     }
 
     /**
@@ -50,7 +57,7 @@ class ProductController extends Controller
      */
     public function show(Product $product)
     {
-        return response()->json($product);
+        return response()->json(new ProductResource($product));
     }
 
     /**
@@ -64,7 +71,7 @@ class ProductController extends Controller
     {
         $body = $request->all();
         $product->update($body);
-        return response()->json($product);
+        return response()->json(new ProductResource($product));
     }
 
     /**
