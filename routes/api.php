@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuctionController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProductController;
 use Illuminate\Http\Request;
@@ -19,8 +20,10 @@ use Illuminate\Support\Facades\Route;
 Route::post('login', [AuthController::class, 'login']);
 Route::post('register', [AuthController::class, 'register']);
 Route::apiResource('/products', ProductController::class)->only(['index', 'show']);
+Route::get('auctions', [AuctionController::class, 'index']);
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('logout', [AuthController::class, 'logout']);
+    Route::post('auctions', [AuctionController::class, 'store']);
     Route::apiResource('/products', ProductController::class)->only(['store', 'update', 'destroy']);
 });
