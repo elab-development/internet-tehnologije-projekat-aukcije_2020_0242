@@ -5,7 +5,10 @@ namespace App\Http\Controllers;
 use App\Http\Resources\AuctionCollection;
 use App\Http\Resources\AuctionResource;
 use App\Models\Auction;
+use App\Models\Bid;
+use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class AuctionController extends Controller
 {
@@ -36,14 +39,66 @@ class AuctionController extends Controller
         if (!$user->admin) {
             return response()->json(['message' => 'Unauthorized'], 403);
         }
+        $product = Product::find($request->product_id);
+        if (!$product || $product->canCreateAuction()) {
+            return response()->json(['message' => 'Invalid product'], 400);
+        }
         $auction = Auction::create([
             'start_time' => strtotime($request->start_time),
             'end_time' => strtotime($request->end_time),
             'start_price' => $request->start_price,
             'product_id' => $request->product_id,
-            'status' => 'inactive',
-            'user_id' => null
+            'status' => 'active'
         ]);
+        return response()->json(new AuctionResource($auction));
+    }
+
+    public function changeStatus(Request $request, $id)
+    {
+        $user = $request->user();
+        if (!$user->admin) {
+            return response()->json(['message' => 'Unauthorized'], 403);
+        }
+        $auction = Auction::find($id);
+        if (!$auction) {
+            return response()->json(['message' => 'Missing auction'], 404);
+        }
+        if ($auction->status != 'active') {
+            return response()->json(['message' => 'Cannot change status'], 400);
+        }
+        $auction->update(['status' => $request->status]);
+        if ($request->status == 'success') {
+            $auction->product->update(['sold' => true]);
+        }
+        return response()->json(new AuctionResource($auction));
+    }
+
+    public function createBid(Request $request, $id)
+    {
+        DB::beginTransaction();
+        $auction = Auction::lockForUpdate()->find($id);
+        if (!$auction) {
+            DB::rollBack();
+            return response()->json(['message' => 'Missing auction'], 404);
+        }
+        $now = time();
+        if ($auction->start_time > $now || $auction->end_time < $now) {
+            DB::rollBack();
+            return response()->json(['message' => 'Auction is not active'], 400);
+        }
+        $bestBid = $auction->bestBid();
+        $amount = $request->amount;
+        $user = $request->user();
+        if ($bestBid != null && $bestBid->amount >= $amount + 1) {
+            DB::rollBack();
+            return response()->json(['message' => 'Small bid'], 400);
+        }
+        Bid::create([
+            'price' => $amount,
+            'user_id' => $user->id,
+            'auction_id' => $id
+        ]);
+        DB::commit();
         return response()->json(new AuctionResource($auction));
     }
 }

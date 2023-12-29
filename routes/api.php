@@ -25,5 +25,7 @@ Route::get('auctions', [AuctionController::class, 'index']);
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('logout', [AuthController::class, 'logout']);
     Route::post('auctions', [AuctionController::class, 'store']);
+    Route::put('auctions/{id}', [AuctionController::class, 'changeStatus']);
+    Route::post('auctions/{id}/bids', [AuctionController::class, 'createBid']);
     Route::apiResource('/products', ProductController::class)->only(['store', 'update', 'destroy']);
 });

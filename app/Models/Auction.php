@@ -9,20 +9,32 @@ class Auction extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['start_time', 'end_time', 'start_price', 'user_id', 'product_id', 'status'];
+    protected $fillable = ['start_time', 'end_time', 'start_price',  'product_id', 'status'];
 
     protected $casts = [
         'id' => 'integer',
         'start_time' => 'timestamp',
         'end_time' => 'timestamp',
         'start_price' => 'double',
-        'user_id' => 'integer',
         'product_id' => 'integer'
     ];
 
     public function user()
     {
-        return $this->belongsTo(User::class);
+        $bestBid = $this->bestBid();
+        return $bestBid == null ? null : $bestBid->user;
+    }
+
+    public function bestBid()
+    {
+        $bids = $this->bids;
+        $bid = null;
+        foreach ($bids as $b) {
+            if ($bid == null || $b->price > $bid->price) {
+                $bid = $b;
+            }
+        }
+        return $bid;
     }
 
     public function product()

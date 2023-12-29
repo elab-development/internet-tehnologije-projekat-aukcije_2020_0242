@@ -15,4 +15,22 @@ class Product extends Model
         'id' => 'integer',
         'sold' => 'boolean'
     ];
+
+    public function auctions()
+    {
+        return $this->hasMany(Auction::class);
+    }
+
+    public function canCreateAuction()
+    {
+        if ($this->sold) {
+            return false;
+        }
+        foreach ($this->auctions() as $auction) {
+            if ($auction->status != 'failed') {
+                return false;
+            }
+        }
+        return true;
+    }
 }

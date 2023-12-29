@@ -19,7 +19,7 @@ class CreateAuctionsTable extends Migration
             $table->timestamp('start_time')->nullable();
             $table->timestamp('end_time')->nullable();
             $table->decimal('start_price');
-            $table->enum('status', ['inactive', 'active', 'success', 'failed']);
+            $table->enum('status', ['active', 'success', 'failed']);
         });
     }
 
