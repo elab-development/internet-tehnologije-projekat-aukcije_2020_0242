@@ -3,3 +3,8 @@
     background-size: cover;
     height: 50vh;
 }
+
+.product {
+    cursor: pointer;
+    margin-bottom: 20px;
+}

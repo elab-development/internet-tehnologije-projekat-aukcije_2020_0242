@@ -25,7 +25,7 @@ export interface Product {
     sold: boolean,
     description: string
 }
-export type CreateProduct = Omit<Product, 'sold' | 'id'>
+export type CreateProduct = Omit<Product, 'id'>
 
 export interface User {
     id: number,

@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useAuthContext } from '../context/AuthContext';
 import { Link } from 'react-router-dom';
-import Input from './Input';
+import Input from './inputs/Input';
 import ErrorDialog from './ErrorDialog';
 
 export default function RegisterPage() {
