@@ -1,19 +1,20 @@
 import React from 'react'
 
+type ValueType = number | string
+
 interface Props {
-    label: string,
-    value: string,
-    onChange: (val: string) => void,
-    required: boolean
-    data: { value: string, label: string }[]
+    label?: string,
+    value: ValueType,
+    onChange: (val: ValueType) => void,
+    data: { value: ValueType, label: string }[]
 }
 
 
 export default function Select(props: Props) {
     return (
-        <div className='form-group mt-3'>
+        <div className='form-group mt-3 d-flex'>
             {props.label && <label >{props.label}</label>}
-            <select className='form-control' required={props.required}
+            <select className='form-control'
                 value={props.value} onChange={e => props.onChange?.(e.currentTarget.value)}>
                 {
                     props.data.map(element => {
