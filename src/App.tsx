@@ -1,26 +1,23 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import { useAuthContext } from './context/AuthContext';
+import { Route, Routes } from 'react-router';
+import AuthPage from './components/AuthPage';
 
 function App() {
+  const { user } = useAuthContext();
+  if (user) {
+    return null;
+  }
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <h2 className='text-center mt-3'>Auctions</h2>
+      <Routes>
+        <Route path='/register' element={<AuthPage login={false} />} />
+        <Route path='*' element={<AuthPage login />} />
+      </Routes>
     </div>
-  );
+  )
 }
 
 export default App;

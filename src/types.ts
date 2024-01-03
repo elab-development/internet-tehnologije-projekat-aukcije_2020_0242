@@ -42,6 +42,7 @@ export interface RegisterUser {
     firstName: string,
     lastName: string,
     phone: string,
+    password: string
 }
 
 export interface CreateAuction {

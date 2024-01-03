@@ -65,8 +65,8 @@ export function AuthContextProvider(props: React.PropsWithChildren) {
             axios.defaults.headers.common.Authorization = 'Bearer ' + res.data.token;
         } catch (error) {
             if (axios.isAxiosError(error)) {
+                console.log(error.response?.data)
                 setError(error.response?.data.message);
-
             } else {
                 setError('Something went wrong');
             }
