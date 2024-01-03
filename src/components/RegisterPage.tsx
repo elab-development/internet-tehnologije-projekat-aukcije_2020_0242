@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { useAuthContext } from '../context/AuthContext';
 import { Link } from 'react-router-dom';
 import Input from './Input';
+import ErrorDialog from './ErrorDialog';
 
 export default function RegisterPage() {
     const [firstName, setFirstName] = useState('');
@@ -9,18 +10,15 @@ export default function RegisterPage() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('')
     const [phone, setPhone] = useState('')
-    const { register, error } = useAuthContext();
+    const { register, error, setError } = useAuthContext();
     const [repeat, setRepeat] = useState('')
     return (
         <div>
-            <h3 className='mt-2 text-center'>Login</h3>
-            {
-                error && (
-                    <div className="alert alert-danger mt-2" >
-                        {error}
-                    </div>
-                )
-            }
+            <h3 className='mt-2 text-center'>Create new account</h3>
+            <ErrorDialog
+                error={error}
+                onReset={() => { setError('') }}
+            />
             <form onSubmit={e => {
                 e.preventDefault();
                 if (password !== repeat) {
@@ -83,7 +81,7 @@ export default function RegisterPage() {
                 <button disabled={password !== repeat} className='btn btn-primary form-control mt-2'>Register</button>
             </form>
             <Link to='/'>
-                <button className='btn btn-secondary form-control mt-2'>Already have an account</button>
+                <button className='btn btn-secondary form-control mt-2 mb-4'>Already have an account</button>
             </Link>
         </div>
     )

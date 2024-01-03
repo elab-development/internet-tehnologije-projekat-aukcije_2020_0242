@@ -7,7 +7,8 @@ export interface AuthContextType {
     login: (email: string, password: string) => void,
     register: (u: RegisterUser) => void,
     logout: () => void,
-    error: string
+    error: string,
+    setError: (val: string) => void
 }
 
 const AuthContext = React.createContext<AuthContextType | null>(null);
@@ -98,6 +99,7 @@ export function AuthContextProvider(props: React.PropsWithChildren) {
             value={{
                 user,
                 login,
+                setError,
                 logout,
                 register,
                 error
