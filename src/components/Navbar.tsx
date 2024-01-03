@@ -13,7 +13,7 @@ export default function Navbar() {
                         <NavLink className='nav-link' to='/'>Auctions</NavLink>
                     </li>
                     <li className="nav-item">
-                        <NavLink className='nav-link' to='/'>Products</NavLink>
+                        <NavLink className='nav-link' to='/products'>Products</NavLink>
                     </li>
                 </ul>
                 <div>
