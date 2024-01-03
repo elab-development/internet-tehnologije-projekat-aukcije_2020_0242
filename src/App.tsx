@@ -3,11 +3,22 @@ import './App.css';
 import { useAuthContext } from './context/AuthContext';
 import { Route, Routes } from 'react-router';
 import AuthPage from './components/AuthPage';
+import Navbar from './components/Navbar';
+import ProductsPage from './components/ProductsPage';
+import AuctionsPage from './components/AuctionsPage';
 
 function App() {
   const { user } = useAuthContext();
   if (user) {
-    return null;
+    return (
+      <div>
+        <Navbar />
+        <Routes>
+          <Route path='/product' element={<ProductsPage />} />
+          <Route path='*' element={<AuctionsPage />} />
+        </Routes>
+      </div>
+    )
   }
   return (
     <div>

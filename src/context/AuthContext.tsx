@@ -1,6 +1,7 @@
 import axios from "axios";
 import { RegisterUser, User } from "../types"
 import React, { useContext, useEffect, useState } from 'react'
+import { useNavigate } from "react-router";
 
 export interface AuthContextType {
     user?: User,
@@ -24,9 +25,9 @@ export function useAuthContext() {
 
 export function AuthContextProvider(props: React.PropsWithChildren) {
     const [user, setUser] = useState<User | undefined>(undefined);
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
-
+    const navigate = useNavigate();
     useEffect(() => {
         if (!loading) {
             return;
@@ -36,11 +37,11 @@ export function AuthContextProvider(props: React.PropsWithChildren) {
             setLoading(false);
             return;
         }
-        axios.get('/api/user')
+        axios.get('/api/user', { headers: { Authorization: 'Bearer ' + token } })
             .then(res => {
-                setUser(res.data.user);
-                localStorage.setItem('token', res.data.token);
-                axios.defaults.headers.common.Authorization = 'Bearer ' + res.data.token;
+                setUser(res.data);
+                localStorage.setItem('token', token);
+                axios.defaults.headers.common.Authorization = 'Bearer ' + token;
             })
             .catch(err => {
 
@@ -80,6 +81,7 @@ export function AuthContextProvider(props: React.PropsWithChildren) {
             setUser(res.data.user);
             localStorage.setItem('token', res.data.token);
             axios.defaults.headers.common.Authorization = 'Bearer ' + res.data.token;
+            navigate('/')
         } catch (error) {
             if (axios.isAxiosError(error)) {
                 setError(error.response?.data.message);
