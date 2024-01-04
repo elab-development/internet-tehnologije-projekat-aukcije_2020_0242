@@ -2,7 +2,7 @@ import React from 'react'
 
 interface Props {
     label: string,
-    value: string,
+    value: string | number,
     onChange: (val: string) => void,
     type: React.HTMLInputTypeAttribute,
     placeholder: string,

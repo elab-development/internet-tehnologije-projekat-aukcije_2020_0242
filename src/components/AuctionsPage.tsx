@@ -3,6 +3,7 @@ import { Auction, Pagination } from '../types'
 import axios from 'axios';
 import Input from './inputs/Input';
 import { format } from 'date-fns'
+import AuctionForm from './form/AuctionForm';
 
 export default function AuctionsPage() {
     const [auctions, setAuctions] = useState<Pagination<Auction> | undefined>(undefined);
@@ -114,7 +115,13 @@ export default function AuctionsPage() {
                     }
                 </div>
                 <div className='col-5'>
+                    <AuctionForm
 
+                        onSubmit={async val => {
+                            await axios.post('/api/auctions', val);
+                            fetchAuctions();
+                        }}
+                    />
                 </div>
             </div>
         </div>
