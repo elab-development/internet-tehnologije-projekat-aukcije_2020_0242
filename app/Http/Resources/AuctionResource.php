@@ -14,13 +14,16 @@ class AuctionResource extends JsonResource
      */
     public function toArray($request)
     {
+        $user = $this->user();
         return [
             'id' => $this->id,
             'startTime' => $this->start_time,
             'endTime' => $this->end_time,
             'startPrice' => $this->start_price,
-            'user' => $this->user == null ? null : new UserResource($this->user),
-            'product' => new ProductResource($this->product)
+            'bids' => BidResource::collection($this->bids),
+            'user' => $user == null ? null : new UserResource($user),
+            'product' => new ProductResource($this->product),
+            'status' => $this->status
         ];
     }
 }

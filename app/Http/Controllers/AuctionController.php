@@ -39,15 +39,15 @@ class AuctionController extends Controller
         if (!$user->admin) {
             return response()->json(['message' => 'Unauthorized'], 403);
         }
-        $product = Product::find($request->product_id);
+        $product = Product::find($request->productId);
         if (!$product || $product->canCreateAuction()) {
             return response()->json(['message' => 'Invalid product'], 400);
         }
         $auction = Auction::create([
-            'start_time' => strtotime($request->start_time),
-            'end_time' => strtotime($request->end_time),
-            'start_price' => $request->start_price,
-            'product_id' => $request->product_id,
+            'start_time' => strtotime($request->startTime),
+            'end_time' => strtotime($request->endTime),
+            'start_price' => $request->startPrice,
+            'product_id' => $request->productId,
             'status' => 'active'
         ]);
         return response()->json(new AuctionResource($auction));

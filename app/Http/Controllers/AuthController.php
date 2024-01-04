@@ -13,7 +13,7 @@ class AuthController extends Controller
     {
         $user = User::where('email', $request->email)->first();
         if (!$user || !Hash::check($request->password, $user->password)) {
-            return response()->json(["mesage" => "Invalid email or password"], 400);
+            return response()->json(["message" => "Invalid email or password"], 400);
         }
         $token = $user->createToken('auth_token')->plainTextToken;
         return response()->json(['token' => $token, 'user' => new UserResource($user)]);
@@ -27,8 +27,8 @@ class AuthController extends Controller
         }
         $user = User::create([
             'email' => $request->email,
-            'first_name' => $request->first_name,
-            'last_name' => $request->last_name,
+            'first_name' => $request->firstName,
+            'last_name' => $request->lastName,
             'phone' => $request->phone,
             'admin' => false,
             'password' => Hash::make($request->password)
@@ -41,5 +41,10 @@ class AuthController extends Controller
     {
         $request->user()->currentAccessToken()->delete();
         return response()->noContent();
+    }
+
+    public function user(Request $request)
+    {
+        return response()->json(new UserResource($request->user()));
     }
 }

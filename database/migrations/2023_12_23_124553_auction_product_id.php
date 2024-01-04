@@ -15,7 +15,6 @@ class AuctionProductId extends Migration
     {
         Schema::table('auctions', function (Blueprint $table) {
             $table->foreignId('product_id')->constrained()->restrictOnDelete();
-            $table->foreignId('user_id')->nullable()->constrained()->nullOnDelete();
         });
     }
 
@@ -27,7 +26,7 @@ class AuctionProductId extends Migration
     public function down()
     {
         Schema::table('auctions', function (Blueprint $table) {
-            //
+            $table->dropConstrainedForeignId('product_id');
         });
     }
 }
