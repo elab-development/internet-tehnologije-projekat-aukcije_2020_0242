@@ -1,7 +1,7 @@
 export interface Auction {
     id: number,
-    startTime: string,
-    endTime: string,
+    startTime: number,
+    endTime: number,
     startPrice: number,
     user?: User,
     product: Product,

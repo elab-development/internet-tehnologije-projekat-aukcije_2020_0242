@@ -9,13 +9,17 @@ interface Props {
 export default function ProductCard(props: Props) {
     return (
         <div className="card" >
-            {
-                props.product.sold && (
-                    <div className='card-header'>
-                        Sold
-                    </div>
-                )
-            }
+            <div className='card-header d-flex justify-content-between'>
+                <strong>{`ID: ${props.product.id}`}</strong>
+                {
+                    props.product.sold && (
+                        <strong >
+                            Sold
+                        </strong>
+                    )
+                }
+            </div>
+
             <img className="card-img-top" src={props.product.image} alt="Product image" />
             <div className="card-body">
                 <h5 className="card-title">{props.product.name}</h5>
