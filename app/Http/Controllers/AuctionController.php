@@ -24,10 +24,10 @@ class AuctionController extends Controller
             $where[] = ['user_id', '=', $userId];
         }
         if ($from != null) {
-            $where[] = ['start_time', '>', strtotime($from)];
+            $where[] = ['start_time', '>', $from];
         }
         if ($to != null) {
-            $where[] = ['start_time', '<', strtotime($to)];
+            $where[] = ['start_time', '<', $to];
         }
         $auctions = Auction::where($where)->paginate($size, ['*'], 'page', $page);
         return response()->json(new AuctionCollection($auctions));
@@ -44,8 +44,8 @@ class AuctionController extends Controller
             return response()->json(['message' => 'Invalid product'], 400);
         }
         $auction = Auction::create([
-            'start_time' => strtotime($request->startTime),
-            'end_time' => strtotime($request->endTime),
+            'start_time' => $request->startTime,
+            'end_time' => $request->endTime,
             'start_price' => $request->startPrice,
             'product_id' => $request->productId,
             'status' => 'active'
