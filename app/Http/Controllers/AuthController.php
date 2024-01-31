@@ -23,7 +23,7 @@ class AuthController extends Controller
     {
         $user = User::where('email', $request->email)->first();
         if ($user) {
-            return response()->json(['message' => 'User already exists']);
+            return response()->json(['message' => 'User already exists'], 400);
         }
         $user = User::create([
             'email' => $request->email,
