@@ -13,6 +13,7 @@ export default function AuctionsPage() {
         from: '',
         to: '',
         userId: '',
+        search: '',
         page: 0,
         size: 20
     })
@@ -24,6 +25,7 @@ export default function AuctionsPage() {
                 to: params.to || undefined,
                 userId: params.userId || undefined,
                 page: params.page,
+                search: params.search,
                 size: params.size
             }
         });
@@ -56,53 +58,64 @@ export default function AuctionsPage() {
     return (
         <div className='container'>
             <h2 className='text-center m-3'>Auctions overview</h2>
-            <div className='mt-2 d-flex  align-items-center justify-content-between'>
-                <div className='d-flex  align-items-center'>
-                    <div className='pe-3'>
-                        <Input
-                            placeholder='from'
-                            label='From'
-                            type='date'
-                            value={params.from}
-                            onChange={val => setParams(prev => {
-                                return {
-                                    ...prev,
-                                    from: val
-                                }
-                            })}
-                        />
-                    </div>
-                    <div className='pe-3'>
-                        <Input
-                            placeholder='To'
-                            label='To'
-                            type='date'
-                            value={params.to}
-                            onChange={val => setParams(prev => {
-                                return {
-                                    ...prev,
-                                    to: val
-                                }
-                            })}
-                        />
-                    </div>
-                    <Select
-                        label='User id'
-                        value={params.userId}
-                        data={users.map(user => {
-                            return {
-                                value: user.id,
-                                label: user.firstName + ' ' + user.lastName
-                            }
-                        })}
+            <div className='mt-2 d-flex  align-items-end justify-content-between'>
+                <div className='pe-3'>
+                    <Input
+                        placeholder='from'
+                        label='From'
+                        type='date'
+                        value={params.from}
                         onChange={val => setParams(prev => {
                             return {
                                 ...prev,
-                                userId: val as any
+                                from: val
                             }
                         })}
                     />
                 </div>
+                <div className='pe-3'>
+                    <Input
+                        placeholder='To'
+                        label='To'
+                        type='date'
+                        value={params.to}
+                        onChange={val => setParams(prev => {
+                            return {
+                                ...prev,
+                                to: val
+                            }
+                        })}
+                    />
+                </div>
+                <div style={{ flex: 1 }}>
+                    <Input
+                        placeholder='Search'
+                        label='Search'
+                        value={params.search}
+                        onChange={val => setParams(prev => {
+                            return {
+                                ...prev,
+                                search: val
+                            }
+                        })}
+                    />
+                </div>
+                <Select
+                    label='User id'
+                    value={params.userId}
+                    data={users.map(user => {
+                        return {
+                            value: user.id,
+                            label: user.firstName + ' ' + user.lastName
+                        }
+                    })}
+                    onChange={val => setParams(prev => {
+                        return {
+                            ...prev,
+                            userId: val as any
+                        }
+                    })}
+                />
                 <div className='d-flex  align-items-center'>
                     <button
                         onClick={() => {

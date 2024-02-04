@@ -7,6 +7,7 @@ use App\Http\Resources\AuctionResource;
 use App\Models\Auction;
 use App\Models\Bid;
 use App\Models\Product;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -16,20 +17,25 @@ class AuctionController extends Controller
     {
         $page = $request->query('page', 0);
         $size = $request->query('size', 20);
-        $where = [];
         $from = $request->query('from', null);
         $to = $request->query('to', null);
         $userId = $request->query('userId', null);
+        $search = $request->query('search', '');
+        $query = Auction::query();
         if ($userId != null) {
-            $where[] = ['user_id', '=', $userId];
+            $query = $query->where('user_id', $userId);
         }
         if ($from != null) {
-            $where[] = ['start_time', '>', $from];
+            $query = $query->where('start_time', '>', $from);
         }
         if ($to != null) {
-            $where[] = ['start_time', '<', $to];
+            $query = $query->where('start_time', '<', $to);
         }
-        $auctions = Auction::where($where)->paginate($size, ['*'], 'page', $page);
+        if ($search) {
+            $query = $query->join('products', 'products.id', '=', 'auctions.product_id')
+                ->whereRaw("products.name like ? OR products.description like ?", ["%" . $search . "%", "%" . $search . "%"]);
+        }
+        $auctions =  $query->paginate($size, ['*'], 'page', $page);
         return response()->json(new AuctionCollection($auctions));
     }
 
