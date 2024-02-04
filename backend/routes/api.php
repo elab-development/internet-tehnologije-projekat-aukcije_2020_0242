@@ -4,6 +4,7 @@ use App\Http\Controllers\AuctionController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\FileController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -27,6 +28,7 @@ Route::get('/files/{fileName}', [FileController::class, 'getFile']);
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('logout', [AuthController::class, 'logout']);
     Route::get('user', [AuthController::class, 'user']);
+    Route::get('users', [UserController::class, 'users']);
     Route::post('auctions', [AuctionController::class, 'store']);
     Route::post('files', [FileController::class, 'store']);
     Route::put('auctions/{id}', [AuctionController::class, 'changeStatus']);

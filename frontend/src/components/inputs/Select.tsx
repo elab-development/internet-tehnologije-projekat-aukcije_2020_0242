@@ -12,10 +12,11 @@ interface Props {
 
 export default function Select(props: Props) {
     return (
-        <div className='form-group mt-3 d-flex'>
+        <div className='form-group mt-3 '>
             {props.label && <label >{props.label}</label>}
             <select className='form-control'
                 value={props.value} onChange={e => props.onChange?.(e.currentTarget.value)}>
+                <option value="">Select...</option>
                 {
                     props.data.map(element => {
                         return (
