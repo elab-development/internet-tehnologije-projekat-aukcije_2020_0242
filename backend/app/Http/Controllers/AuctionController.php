@@ -40,7 +40,7 @@ class AuctionController extends Controller
             return response()->json(['message' => 'Unauthorized'], 403);
         }
         $product = Product::find($request->productId);
-        if (!$product || $product->canCreateAuction()) {
+        if (!$product || !$product->canCreateAuction()) {
             return response()->json(['message' => 'Invalid product'], 400);
         }
         $auction = Auction::create([

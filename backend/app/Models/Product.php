@@ -26,7 +26,7 @@ class Product extends Model
         if ($this->sold) {
             return false;
         }
-        foreach ($this->auctions() as $auction) {
+        foreach ($this->auctions as $auction) {
             if ($auction->status != 'failed') {
                 return false;
             }
