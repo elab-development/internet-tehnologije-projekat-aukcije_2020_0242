@@ -9,7 +9,7 @@ import AuctionsPage from './components/AuctionsPage';
 
 function App() {
   const { user } = useAuthContext();
-  if (user) {
+  if (user?.admin) {
     return (
       <div>
         <Navbar />
@@ -20,12 +20,24 @@ function App() {
       </div>
     )
   }
+  if (user) {
+    <div>
+      <Navbar />
+      <Routes>
+        <Route path='/auction/:id' element={<div>Auction</div>} />
+        <Route path='/history' element={<div>History</div>} />
+        <Route path='*' element={<AuctionsPage />} />
+      </Routes>
+    </div>
+  }
   return (
     <div>
-      <h2 className='text-center mt-3'>Auctions</h2>
+      <Navbar />
       <Routes>
+        <Route path='*' element={<AuctionsPage />} />
+        <Route path='/auction/:id' element={<div>Auction</div>} />
         <Route path='/register' element={<AuthPage login={false} />} />
-        <Route path='*' element={<AuthPage login />} />
+        <Route path='/login' element={<AuthPage login />} />
       </Routes>
     </div>
   )
