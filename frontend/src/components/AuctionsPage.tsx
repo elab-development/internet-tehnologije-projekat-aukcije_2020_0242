@@ -5,6 +5,7 @@ import Input from './inputs/Input';
 import { format } from 'date-fns'
 import AuctionForm from './form/AuctionForm';
 import Select from './inputs/Select';
+import { Link } from 'react-router-dom';
 
 export default function AuctionsPage() {
     const [auctions, setAuctions] = useState<Pagination<Auction> | undefined>(undefined);
@@ -166,7 +167,9 @@ export default function AuctionsPage() {
                                         auctions.data.map(auction => {
                                             return (
                                                 <tr key={auction.id}>
-                                                    <td>{auction.id}</td>
+                                                    <td>
+                                                        <Link to={'/auction/' + auction.id}>{auction.id}</Link>
+                                                    </td>
                                                     <td>{format(new Date(auction.startTime * 1000), 'dd.MM.yyyy HH:mm')}</td>
                                                     <td>{format(new Date(auction.endTime * 1000), 'dd.MM.yyyy HH:mm')}</td>
                                                     <td>{auction.startPrice}</td>

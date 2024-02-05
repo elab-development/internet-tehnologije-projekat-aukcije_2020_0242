@@ -61,51 +61,57 @@ export default function AuctionShowPage() {
                 <div className='col-6'>
                     <h4 className='text-center'>Bids</h4>
                     {
-                        !user && (
-                            <div>
-                                You need to login in order to create a bid
-                            </div>
-                        )
-                    }
-                    {
-                        user && (
+                        !user?.admin && (
                             <>
                                 {
-                                    sortedBids.length > 0 && sortedBids[0].user.id === user.id ? (
+                                    !user && (
                                         <div>
-                                            You are the leader
+                                            You need to login in order to create a bid
                                         </div>
-                                    ) : (
+                                    )
+                                }
+                                {
+                                    user && (
                                         <>
-                                            <form
-                                                onSubmit={async (e) => {
-                                                    e.preventDefault();
-                                                    if (Number(bid) < minValue + 1) {
-                                                        return;
-                                                    }
-                                                    try {
-                                                        const res = await axios.post('/api/auctions/' + id + '/bids', { amount: bid })
-                                                        setBid('');
-                                                        setAuction(res.data);
-                                                        setError('');
-                                                    } catch (error) {
-                                                        if (axios.isAxiosError(error)) {
-                                                            setError(error.response?.data.message || '')
-                                                        } else {
-                                                            setError('Could not create bid');
-                                                        }
-                                                    }
-                                                }}
-                                                className='d-flex justify-content-between'>
-                                                <div className='input-wrapper' style={{ flex: 1 }}>
-                                                    <Input value={bid} onChange={setBid} type='number' placeholder='Enter bid...' />
-
-                                                </div>
-                                                <button disabled={Number(bid) < minValue + 1} className='btn btn-secondary '>Make bid</button>
-                                            </form>
                                             {
-                                                error && (
-                                                    <span className='mt-2 text-danger'>{error}</span>
+                                                sortedBids.length > 0 && sortedBids[0].user.id === user.id ? (
+                                                    <div>
+                                                        You are the leader
+                                                    </div>
+                                                ) : (
+                                                    <>
+                                                        <form
+                                                            onSubmit={async (e) => {
+                                                                e.preventDefault();
+                                                                if (Number(bid) < minValue + 1) {
+                                                                    return;
+                                                                }
+                                                                try {
+                                                                    const res = await axios.post('/api/auctions/' + id + '/bids', { amount: bid })
+                                                                    setBid('');
+                                                                    setAuction(res.data);
+                                                                    setError('');
+                                                                } catch (error) {
+                                                                    if (axios.isAxiosError(error)) {
+                                                                        setError(error.response?.data.message || '')
+                                                                    } else {
+                                                                        setError('Could not create bid');
+                                                                    }
+                                                                }
+                                                            }}
+                                                            className='d-flex justify-content-between'>
+                                                            <div className='input-wrapper' style={{ flex: 1 }}>
+                                                                <Input value={bid} onChange={setBid} type='number' placeholder='Enter bid...' />
+
+                                                            </div>
+                                                            <button disabled={Number(bid) < minValue + 1} className='btn btn-secondary '>Make bid</button>
+                                                        </form>
+                                                        {
+                                                            error && (
+                                                                <span className='mt-2 text-danger'>{error}</span>
+                                                            )
+                                                        }
+                                                    </>
                                                 )
                                             }
                                         </>
