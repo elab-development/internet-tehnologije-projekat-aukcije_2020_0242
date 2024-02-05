@@ -63,6 +63,12 @@ class AuctionController extends Controller
         return response()->json(new AuctionResource($auction));
     }
 
+    public function show($id)
+    {
+        $auction = Auction::find($id);
+        return response()->json(new AuctionResource($auction));
+    }
+
     public function changeStatus(Request $request, $id)
     {
         $user = $request->user();
@@ -91,8 +97,8 @@ class AuctionController extends Controller
             DB::rollBack();
             return response()->json(['message' => 'Missing auction'], 404);
         }
-        $now = time();
-        if ($auction->start_time > $now || $auction->end_time < $now) {
+        $now = now()->toDateTimeString();
+        if ($auction->start_time > $now || ($auction->end_time && $auction->end_time < $now)) {
             DB::rollBack();
             return response()->json(['message' => 'Auction is not active'], 400);
         }
@@ -109,6 +115,6 @@ class AuctionController extends Controller
             'auction_id' => $id
         ]);
         DB::commit();
-        return response()->json(new AuctionResource($auction));
+        return response()->json(new AuctionResource(Auction::find($auction->id)));
     }
 }

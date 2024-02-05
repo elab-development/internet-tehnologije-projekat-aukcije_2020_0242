@@ -14,7 +14,8 @@ export type AuctionStatus = 'active' | 'success' | 'failed'
 export interface Bid {
     id: number,
     price: number,
-    user: User
+    user: User,
+    createdAt: string
 }
 
 

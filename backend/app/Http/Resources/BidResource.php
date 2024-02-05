@@ -17,7 +17,8 @@ class BidResource extends JsonResource
         return [
             'id' => $this->id,
             'price' => $this->price,
-            'user' => new UserResource($this->user)
+            'user' => new UserResource($this->user),
+            'createdAt' => $this->created_at
         ];
     }
 }

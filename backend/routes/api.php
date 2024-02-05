@@ -23,6 +23,7 @@ Route::post('login', [AuthController::class, 'login']);
 Route::post('register', [AuthController::class, 'register']);
 Route::apiResource('/products', ProductController::class)->only(['index', 'show']);
 Route::get('auctions', [AuctionController::class, 'index']);
+Route::get('auctions/{id}', [AuctionController::class, 'show']);
 Route::get('/files/{fileName}', [FileController::class, 'getFile']);
 
 Route::middleware('auth:sanctum')->group(function () {

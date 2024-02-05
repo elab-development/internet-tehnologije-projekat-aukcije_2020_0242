@@ -8,3 +8,7 @@
     cursor: pointer;
     margin-bottom: 20px;
 }
+
+.input-wrapper>div {
+    margin-top: 0 !important;
+}
