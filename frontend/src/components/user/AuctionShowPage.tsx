@@ -38,6 +38,11 @@ export default function AuctionShowPage() {
                     </div>
                     <div className='mb-1'>
                         <strong>
+                            {`End time: ${format(auction.endTime * 1000, 'dd.MM.yyyy HH:mm')}`}
+                        </strong>
+                    </div>
+                    <div className='mb-1'>
+                        <strong>
                             {`Start price: ${auction.startPrice}`}
                         </strong>
                     </div>
@@ -61,7 +66,10 @@ export default function AuctionShowPage() {
                 <div className='col-6'>
                     <h4 className='text-center'>Bids</h4>
                     {
-                        !user?.admin && (
+                        !user?.admin &&
+                        auction.status === 'active' &&
+                        auction.startTime <= Date.now() / 1000 &&
+                        auction.endTime > Date.now() / 1000 && (
                             <>
                                 {
                                     !user && (
