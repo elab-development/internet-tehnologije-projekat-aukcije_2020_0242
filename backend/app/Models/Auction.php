@@ -22,8 +22,7 @@ class Auction extends Model
 
     public function user()
     {
-        $bestBid = $this->bestBid();
-        return $bestBid == null ? null : $bestBid->user;
+        return $this->belongsTo(User::class);
     }
 
     public function bestBid()

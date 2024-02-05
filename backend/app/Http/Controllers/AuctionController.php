@@ -23,6 +23,10 @@ class AuctionController extends Controller
         $search = $request->query('search', '');
         $onlyActive = $request->query('onlyActive', 0);
         $query = Auction::query();
+        if ($search) {
+            $query = $query->join('products', 'products.id', '=', 'auctions.product_id')
+                ->whereRaw("(products.name like ? OR products.description like ?)", ["%" . $search . "%", "%" . $search . "%"]);
+        }
         if ($userId != null) {
             $query = $query->where('user_id', $userId);
         }
@@ -34,10 +38,6 @@ class AuctionController extends Controller
         }
         if (intval($onlyActive) == 1) {
             $query = $query->where('status', 'active')->where('start_time', '<', now());
-        }
-        if ($search) {
-            $query = $query->join('products', 'products.id', '=', 'auctions.product_id')
-                ->whereRaw("products.name like ? OR products.description like ?", ["%" . $search . "%", "%" . $search . "%"]);
         }
         $auctions =  $query->paginate($size, ['*'], 'page', $page);
         return response()->json(new AuctionCollection($auctions));

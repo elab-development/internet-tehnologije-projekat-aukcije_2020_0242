@@ -14,6 +14,9 @@ export default function UserAuctionHistoryPage() {
     const navigate = useNavigate();
     const { user } = useAuthContext();
     useEffect(() => {
+        if (!user?.id) {
+            return;
+        }
         const urlParams = new URLSearchParams(search);
         urlParams.set('userId', `${user?.id || ''}`)
         axios.get('/api/auctions?' + urlParams.toString())
@@ -89,7 +92,6 @@ export default function UserAuctionHistoryPage() {
                                 <th>User</th>
                                 <th>Total bids</th>
                                 <th>Status</th>
-                                <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
