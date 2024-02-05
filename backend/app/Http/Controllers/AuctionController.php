@@ -114,6 +114,7 @@ class AuctionController extends Controller
             'user_id' => $user->id,
             'auction_id' => $id
         ]);
+        $auction->update(['user_id' => $user->id]);
         DB::commit();
         return response()->json(new AuctionResource(Auction::find($auction->id)));
     }

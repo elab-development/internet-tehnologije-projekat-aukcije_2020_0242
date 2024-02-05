@@ -6,7 +6,11 @@ export default function Navbar() {
     const { user, logout } = useAuthContext();
     return (
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark px-3">
-            <NavLink className='navbar-brand' to='/'>Auction admin</NavLink>
+            <NavLink className='navbar-brand' to='/'>
+                {
+                    user?.admin ? 'Auction admin' : 'Auctions'
+                }
+            </NavLink>
             <div className="collapse navbar-collapse d-flex- justify-content-between align-items-center" >
                 <ul className="navbar-nav">
                     <li className="nav-item active">

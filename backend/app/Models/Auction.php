@@ -9,14 +9,15 @@ class Auction extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['start_time', 'end_time', 'start_price',  'product_id', 'status'];
+    protected $fillable = ['start_time', 'end_time', 'start_price',  'product_id', 'status', 'user_id'];
 
     protected $casts = [
         'id' => 'integer',
         'start_time' => 'timestamp',
         'end_time' => 'timestamp',
         'start_price' => 'double',
-        'product_id' => 'integer'
+        'product_id' => 'integer',
+        'user_id' => 'integer'
     ];
 
     public function user()

@@ -8,6 +8,7 @@ import ProductsPage from './components/ProductsPage';
 import AuctionsPage from './components/AuctionsPage';
 import UserAuctionPage from './components/user/UserAuctionPage';
 import AuctionShowPage from './components/user/AuctionShowPage';
+import UserAuctionHistoryPage from './components/user/UserAuctionHistoryPage';
 
 function App() {
   const { user } = useAuthContext();
@@ -24,11 +25,11 @@ function App() {
     )
   }
   if (user) {
-    <div>
+    return <div>
       <Navbar />
       <Routes>
         <Route path='/auction/:id' element={<AuctionShowPage />} />
-        <Route path='/history' element={<div>History</div>} />
+        <Route path='/history' element={<UserAuctionHistoryPage />} />
         <Route path='*' element={<UserAuctionPage />} />
       </Routes>
     </div>
