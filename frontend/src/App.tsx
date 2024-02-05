@@ -6,6 +6,7 @@ import AuthPage from './components/AuthPage';
 import Navbar from './components/Navbar';
 import ProductsPage from './components/ProductsPage';
 import AuctionsPage from './components/AuctionsPage';
+import UserAuctionPage from './components/user/UserAuctionPage';
 
 function App() {
   const { user } = useAuthContext();
@@ -26,7 +27,7 @@ function App() {
       <Routes>
         <Route path='/auction/:id' element={<div>Auction</div>} />
         <Route path='/history' element={<div>History</div>} />
-        <Route path='*' element={<AuctionsPage />} />
+        <Route path='*' element={<UserAuctionPage />} />
       </Routes>
     </div>
   }
@@ -34,7 +35,7 @@ function App() {
     <div>
       <Navbar />
       <Routes>
-        <Route path='*' element={<AuctionsPage />} />
+        <Route path='*' element={<UserAuctionPage />} />
         <Route path='/auction/:id' element={<div>Auction</div>} />
         <Route path='/register' element={<AuthPage login={false} />} />
         <Route path='/login' element={<AuthPage login />} />

@@ -21,6 +21,7 @@ class AuctionController extends Controller
         $to = $request->query('to', null);
         $userId = $request->query('userId', null);
         $search = $request->query('search', '');
+        $onlyActive = $request->query('onlyActive', 0);
         $query = Auction::query();
         if ($userId != null) {
             $query = $query->where('user_id', $userId);
@@ -30,6 +31,9 @@ class AuctionController extends Controller
         }
         if ($to != null) {
             $query = $query->where('start_time', '<', $to);
+        }
+        if (intval($onlyActive) == 1) {
+            $query = $query->where('status', 'active')->where('start_time', '<', now());
         }
         if ($search) {
             $query = $query->join('products', 'products.id', '=', 'auctions.product_id')
