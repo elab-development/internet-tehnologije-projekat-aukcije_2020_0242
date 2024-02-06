@@ -126,9 +126,9 @@ class ProductController extends Controller
             ->select(
                 'p.id',
                 'p.name',
-                DB::raw("SUM(case when auctions.status='active' then 1 else 0) as active"),
-                DB::raw("SUM(case when auctions.status='success' then 1 else 0) as success"),
-                DB::raw("SUM(case when auctions.status='failed' then 1 else 0) as failed")
+                DB::raw("SUM(case when auctions.status='active' then 1 else 0 end) as active"),
+                DB::raw("SUM(case when auctions.status='success' then 1 else 0 end) as success"),
+                DB::raw("SUM(case when auctions.status='failed' then 1 else 0 end) as failed")
             )
             ->groupBy('p.id', 'p.name')->get();
         return response()->json($res);

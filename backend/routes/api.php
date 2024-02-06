@@ -37,6 +37,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('files', [FileController::class, 'store']);
     Route::put('auctions/{id}', [AuctionController::class, 'changeStatus']);
     Route::post('auctions/{id}/bids', [AuctionController::class, 'createBid']);
-    Route::get('/products-statistics', [ProductController::class, 'statistics']);
+    Route::get('/product-statistics', [ProductController::class, 'statistics']);
     Route::apiResource('/products', ProductController::class)->only(['store', 'update', 'destroy']);
 });
