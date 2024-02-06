@@ -9,11 +9,12 @@ class Product extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'description', 'image', 'sold'];
+    protected $fillable = ['name', 'description', 'image', 'sold', 'category_id'];
 
     protected $casts = [
         'id' => 'integer',
-        'sold' => 'boolean'
+        'sold' => 'boolean',
+        'category_id' => 'integer'
     ];
 
     public function auctions()
@@ -32,5 +33,10 @@ class Product extends Model
             }
         }
         return true;
+    }
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
     }
 }
