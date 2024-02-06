@@ -1,9 +1,11 @@
 import React, { useState } from 'react'
-import { CreateAuction } from '../../types'
+import { CreateAuction, Product } from '../../types'
 import Input from '../inputs/Input'
+import Select from '../inputs/Select'
 
 interface Props {
-    onSubmit: (p: CreateAuction) => void
+    onSubmit: (p: CreateAuction) => void,
+    products: Product[]
 }
 
 
@@ -47,11 +49,14 @@ export default function AuctionForm(props: Props) {
                     value={auctionData.startPrice}
                     onChange={val => setAuctionData(prev => { return { ...prev, startPrice: Number(val) } })}
                 />
-                <Input
-                    label='Product id'
-                    placeholder='Product id'
-                    required
-                    type='number'
+                <Select
+                    label='Product'
+                    data={props.products.map(product => {
+                        return {
+                            label: product.name,
+                            value: product.id
+                        }
+                    })}
                     value={auctionData.productId}
                     onChange={val => setAuctionData(prev => { return { ...prev, productId: Number(val) } })}
                 />

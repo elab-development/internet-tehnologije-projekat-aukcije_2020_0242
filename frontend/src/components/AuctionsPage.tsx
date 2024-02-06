@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Auction, AuctionStatus, Pagination, User } from '../types'
+import { Auction, AuctionStatus, Pagination, Product, User } from '../types'
 import axios from 'axios';
 import Input from './inputs/Input';
 import { format } from 'date-fns'
@@ -10,6 +10,7 @@ import { Link } from 'react-router-dom';
 export default function AuctionsPage() {
     const [auctions, setAuctions] = useState<Pagination<Auction> | undefined>(undefined);
     const [users, setUsers] = useState<User[]>([])
+    const [products, setProducts] = useState<Product[]>([])
     const [params, setParams] = useState({
         from: '',
         to: '',
@@ -18,6 +19,11 @@ export default function AuctionsPage() {
         page: 0,
         size: 20
     })
+
+    useEffect(() => {
+        axios.get('/api/products-all')
+            .then(res => setProducts(res.data))
+    }, [])
 
     const fetchAuctions = async () => {
         const res = await axios.get('/api/auctions', {
@@ -204,6 +210,7 @@ export default function AuctionsPage() {
                 </div>
                 <div className='col-5'>
                     <AuctionForm
+                        products={products}
                         onSubmit={async val => {
                             try {
                                 await axios.post('/api/auctions', val);
