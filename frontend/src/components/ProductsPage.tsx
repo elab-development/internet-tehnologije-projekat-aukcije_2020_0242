@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Pagination, Product } from '../types';
+import { Category, Pagination, Product } from '../types';
 import axios from 'axios';
 import Input from './inputs/Input';
 import Select from './inputs/Select';
@@ -13,6 +13,7 @@ export default function ProductsPage() {
         page: 0,
         size: 20
     })
+    const [categories, setCategories] = useState<Category[]>([])
     const [selectedId, setSelectedId] = useState(0);
     const selectedProduct = products?.data.find(p => p.id === selectedId);
     const fetchProducts = async () => {
@@ -24,6 +25,11 @@ export default function ProductsPage() {
         })
         setProducts(res.data)
     }
+
+    useEffect(() => {
+        axios.get('/api/categories')
+            .then(res => setCategories(res.data))
+    }, [])
 
     useEffect(() => {
         fetchProducts();
@@ -110,6 +116,7 @@ export default function ProductsPage() {
                 </div>
                 <div className='col-7'>
                     <ProductForm
+                        categories={categories}
                         product={selectedProduct}
                         onSubmit={async createProduct => {
                             if (!selectedProduct) {

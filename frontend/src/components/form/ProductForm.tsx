@@ -1,18 +1,21 @@
 import React, { useEffect, useState } from 'react'
-import { CreateProduct, Product } from '../../types'
+import { Category, CreateProduct, Product } from '../../types'
 import Input from '../inputs/Input'
 import CheckBox from '../inputs/CheckBox'
+import Select from '../inputs/Select'
 
 interface Props {
     product?: Product,
-    onSubmit: (p: CreateProduct) => void
+    onSubmit: (p: CreateProduct) => void,
+    categories: Category[]
 }
 
 const emptyProduct = {
     description: '',
     image: '',
     name: '',
-    sold: false
+    sold: false,
+    categoryId: ''
 }
 
 export default function ProductForm(props: Props) {
@@ -23,6 +26,7 @@ export default function ProductForm(props: Props) {
             setProductData({
                 description: props.product.description,
                 name: props.product.name,
+                categoryId: props.product.category ? (props.product.category.id + '') : '',
                 image: props.product.image,
                 sold: props.product.sold,
             })
@@ -62,6 +66,24 @@ export default function ProductForm(props: Props) {
                     textArea
                     value={productData.description}
                     onChange={val => setProductData(prev => { return { ...prev, description: val } })}
+                />
+                <Select
+                    label='Category'
+                    value={productData.categoryId}
+                    data={props.categories.map(c => {
+                        return {
+                            value: c.id,
+                            label: c.name
+                        }
+                    })}
+                    onChange={val => {
+                        setProductData(prev => {
+                            return {
+                                ...prev,
+                                categoryId: val + ''
+                            }
+                        })
+                    }}
                 />
                 <CheckBox
                     label='Sold'

@@ -18,15 +18,21 @@ export interface Bid {
     createdAt: string
 }
 
+export interface Category {
+    id: number,
+    name: string,
+}
+
 
 export interface Product {
     id: number,
     name: string,
     image: string,
     sold: boolean,
-    description: string
+    description: string,
+    category?: Category
 }
-export type CreateProduct = Omit<Product, 'id'>
+export type CreateProduct = Omit<Product, 'id' | 'category'> & { categoryId: string }
 
 export interface User {
     id: number,

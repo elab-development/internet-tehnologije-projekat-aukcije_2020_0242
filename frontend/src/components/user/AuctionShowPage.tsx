@@ -55,6 +55,9 @@ export default function AuctionShowPage() {
                         <strong>
                             {`Product: ${auction.product.name}`}
                         </strong>
+                        <strong>
+                            {`Category: ${auction.product.category?.name || '/'}`}
+                        </strong>
                         <p className='p-2'>
                             {auction.product.description}
                         </p>
