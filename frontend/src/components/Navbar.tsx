@@ -1,6 +1,7 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
 import { useAuthContext } from '../context/AuthContext'
+import BitcoinToUsd from './BitcoinToUsd';
 
 export default function Navbar() {
     const { user, logout } = useAuthContext();
@@ -11,6 +12,7 @@ export default function Navbar() {
                     user?.admin ? 'Auction admin' : 'Auctions'
                 }
             </NavLink>
+            <BitcoinToUsd />
             <div className="collapse navbar-collapse d-flex- justify-content-between align-items-center" >
                 <ul className="navbar-nav">
                     <li className="nav-item active">

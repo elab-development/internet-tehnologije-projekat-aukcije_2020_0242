@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\FileController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\PublicController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -26,6 +27,7 @@ Route::apiResource('/products', ProductController::class)->only(['index', 'show'
 Route::get('auctions', [AuctionController::class, 'index']);
 Route::get('categories', [CategoryController::class, 'index']);
 Route::get('auctions/{id}', [AuctionController::class, 'show']);
+Route::get('btc-usd', [PublicController::class, 'btcToUsd']);
 Route::get('/files/{fileName}', [FileController::class, 'getFile']);
 
 Route::middleware('auth:sanctum')->group(function () {
