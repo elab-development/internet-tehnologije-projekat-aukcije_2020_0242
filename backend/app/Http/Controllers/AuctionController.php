@@ -22,10 +22,9 @@ class AuctionController extends Controller
         $userId = $request->query('userId', null);
         $search = $request->query('search', '');
         $onlyActive = $request->query('onlyActive', 0);
-        $query = Auction::query();
+        $query = Auction::query()->join('products', 'products.id', '=', 'auctions.product_id');
         if ($search) {
-            $query = $query->join('products', 'products.id', '=', 'auctions.product_id')
-                ->whereRaw("(products.name like ? OR products.description like ?)", ["%" . $search . "%", "%" . $search . "%"]);
+            $query = $query->whereRaw("(products.name like ? OR products.description like ?)", ["%" . $search . "%", "%" . $search . "%"]);
         }
         if ($userId != null) {
             $query = $query->where('user_id', $userId);
