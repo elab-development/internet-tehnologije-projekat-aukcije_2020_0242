@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuctionController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\FileController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserController;
@@ -23,6 +24,7 @@ Route::post('login', [AuthController::class, 'login']);
 Route::post('register', [AuthController::class, 'register']);
 Route::apiResource('/products', ProductController::class)->only(['index', 'show']);
 Route::get('auctions', [AuctionController::class, 'index']);
+Route::get('categories', [CategoryController::class, 'index']);
 Route::get('auctions/{id}', [AuctionController::class, 'show']);
 Route::get('/files/{fileName}', [FileController::class, 'getFile']);
 

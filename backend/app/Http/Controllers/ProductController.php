@@ -45,8 +45,9 @@ class ProductController extends Controller
         }
         $body = $request->all();
         $product = Product::create([
-            "sold" => false,
+            "sold" => $body['sold'],
             "name" => $body['name'],
+            'category_id' => $body['categoryId'],
             "description" => $body['description'],
             "image" => $body['image']
         ]);
@@ -78,7 +79,13 @@ class ProductController extends Controller
             return response()->json(['message' => 'Unauthorized'], 403);
         }
         $body = $request->all();
-        $product->update($body);
+        $product->update([
+            "sold" => $body['sold'],
+            "name" => $body['name'],
+            'category_id' => $body['categoryId'],
+            "description" => $body['description'],
+            "image" => $body['image']
+        ]);
         return response()->json(new ProductResource($product));
     }
 
