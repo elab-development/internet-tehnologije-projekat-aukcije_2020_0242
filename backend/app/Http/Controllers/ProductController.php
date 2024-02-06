@@ -6,6 +6,7 @@ use App\Http\Resources\ProductCollection;
 use App\Http\Resources\ProductResource;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ProductController extends Controller
 {
@@ -112,5 +113,24 @@ class ProductController extends Controller
         }
         $product->delete();
         return response()->noContent();
+    }
+
+    public function statistics(Request $request,)
+    {
+        $user = $request->user();
+        if (!$user->admin) {
+            return response()->json(['message' => 'Unauthorized'], 403);
+        }
+        $res = DB::table('products', 'p')
+            ->leftJoin('auctions', 'auctions.product_id', '=', 'p.id')
+            ->select(
+                'p.id',
+                'p.name',
+                DB::raw("SUM(case when auctions.status='active' then 1 else 0) as active"),
+                DB::raw("SUM(case when auctions.status='success' then 1 else 0) as success"),
+                DB::raw("SUM(case when auctions.status='failed' then 1 else 0) as failed")
+            )
+            ->groupBy('p.id', 'p.name')->get();
+        return response()->json($res);
     }
 }

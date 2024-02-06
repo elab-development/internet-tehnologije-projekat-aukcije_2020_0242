@@ -8,7 +8,7 @@ Administrator moze i da kreira, menja i brise aukcije i proizvode.
 
 ## Potreban softver
 
-* NodeJs
+* Node
 * PHP
 * Composer
 * Xampp

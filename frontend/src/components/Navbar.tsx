@@ -18,9 +18,14 @@ export default function Navbar() {
                     </li>
                     {
                         user?.admin && (
-                            <li className="nav-item">
-                                <NavLink className='nav-link' to='/products'>Products</NavLink>
-                            </li>
+                            <>
+                                <li className="nav-item">
+                                    <NavLink className='nav-link' to='/products'>Products</NavLink>
+                                </li>
+                                <li className="nav-item">
+                                    <NavLink className='nav-link' to='/statistics'>Statistics</NavLink>
+                                </li>
+                            </>
                         )
                     }
                     {

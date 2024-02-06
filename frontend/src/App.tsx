@@ -9,6 +9,7 @@ import AuctionsPage from './components/AuctionsPage';
 import UserAuctionPage from './components/user/UserAuctionPage';
 import AuctionShowPage from './components/user/AuctionShowPage';
 import UserAuctionHistoryPage from './components/user/UserAuctionHistoryPage';
+import StatisticsPage from './components/StatisticsPage';
 
 function App() {
   const { user } = useAuthContext();
@@ -19,6 +20,7 @@ function App() {
         <Routes>
           <Route path='/auction/:id' element={<AuctionShowPage />} />
           <Route path='/products' element={<ProductsPage />} />
+          <Route path='/statistics' element={<StatisticsPage />} />
           <Route path='*' element={<AuctionsPage />} />
         </Routes>
       </div>
