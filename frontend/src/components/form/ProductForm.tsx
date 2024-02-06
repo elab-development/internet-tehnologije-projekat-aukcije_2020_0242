@@ -3,6 +3,7 @@ import { Category, CreateProduct, Product } from '../../types'
 import Input from '../inputs/Input'
 import CheckBox from '../inputs/CheckBox'
 import Select from '../inputs/Select'
+import axios from 'axios'
 
 interface Props {
     product?: Product,
@@ -59,6 +60,22 @@ export default function ProductForm(props: Props) {
                     value={productData.image}
                     onChange={val => setProductData(prev => { return { ...prev, image: val } })}
                 />
+                <input className='my-1' type='file' onChange={async e => {
+                    const files = e.target.files;
+                    if (!files) {
+                        return;
+                    }
+                    const file = files[0];
+                    const fd = new FormData();
+                    fd.set('file', file);
+                    const res = await axios.post('/api/files', fd);
+                    setProductData(prev => {
+                        return {
+                            ...prev,
+                            image: `/api/files/` + (res.data.fileName as string).split('/')[1]
+                        }
+                    })
+                }} />
                 <Input
                     label='Description'
                     placeholder='Description'

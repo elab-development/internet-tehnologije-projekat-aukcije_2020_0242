@@ -20,6 +20,6 @@ class FileController extends Controller
 
     public function getFile($fileName)
     {
-        return response(Storage::disk('local')->get($fileName));
+        return response(Storage::disk('local')->get('local/' . $fileName));
     }
 }
