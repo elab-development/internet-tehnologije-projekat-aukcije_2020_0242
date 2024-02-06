@@ -26,6 +26,11 @@ export default function AuctionCard(props: Props) {
             <div className="card-body">
                 <h5 className="card-title">{props.auction.product.name}</h5>
                 <p className="card-text">{props.auction.product.description}</p>
+                {
+                    props.auction.product.category && (
+                        <h6 className="card-text">{props.auction.product.category?.name}</h6>
+                    )
+                }
             </div>
             <ul className="list-group list-group-flush">
                 <li className="list-group-item">{`Start price: ${props.auction.startPrice}`}</li>

@@ -24,6 +24,11 @@ export default function ProductCard(props: Props) {
             <div className="card-body">
                 <h5 className="card-title">{props.product.name}</h5>
                 <p className="card-text">{props.product.description}</p>
+                {
+                    props.product.category && (
+                        <h6 className="card-text">{props.product.category?.name}</h6>
+                    )
+                }
             </div>
         </div>
     )
