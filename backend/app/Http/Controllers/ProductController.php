@@ -31,6 +31,15 @@ class ProductController extends Controller
         return response()->json(new ProductCollection($products));
     }
 
+    public function allProducts(Request $request)
+    {
+        $user = $request->user();
+        if (!$user->admin) {
+            return response()->json(['message' => 'Unauthorized'], 403);
+        }
+        return response()->json(ProductResource::collection(Product::all()));
+    }
+
     /**
      * Store a newly created resource in storage.
      *

@@ -31,6 +31,7 @@ Route::get('/files/{fileName}', [FileController::class, 'getFile']);
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('logout', [AuthController::class, 'logout']);
     Route::get('user', [AuthController::class, 'user']);
+    Route::get('products-all', [ProductController::class, 'allProducts']);
     Route::get('users', [UserController::class, 'users']);
     Route::post('auctions', [AuctionController::class, 'store']);
     Route::post('files', [FileController::class, 'store']);
