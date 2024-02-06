@@ -19,6 +19,7 @@ class AuctionResource extends JsonResource
             'id' => $this->id,
             'startTime' => $this->start_time,
             'endTime' => $this->end_time,
+            'bestBid' => $this->best_bid,
             'startPrice' => $this->start_price,
             'bids' => BidResource::collection($this->bids),
             'user' => $user == null ? null : new UserResource($user),
