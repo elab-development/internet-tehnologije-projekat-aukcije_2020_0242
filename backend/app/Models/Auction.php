@@ -26,17 +26,6 @@ class Auction extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function bestBid()
-    {
-        $bids = $this->bids;
-        $bid = null;
-        foreach ($bids as $b) {
-            if ($bid == null || $b->price > $bid->price) {
-                $bid = $b;
-            }
-        }
-        return $bid;
-    }
 
     public function product()
     {

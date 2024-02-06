@@ -102,19 +102,19 @@ class AuctionController extends Controller
             DB::rollBack();
             return response()->json(['message' => 'Auction is not active'], 400);
         }
-        $bestBid = $auction->bestBid();
+        $minAmount = $auction->best_bid == null ? $auction->start_price : ($auction->best_bid + 1);
         $amount = $request->amount;
         $user = $request->user();
-        if ($bestBid != null && $bestBid->amount >= $amount + 1) {
+        if ($minAmount > $amount) {
             DB::rollBack();
             return response()->json(['message' => 'Small bid'], 400);
         }
         Bid::create([
             'price' => $amount,
             'user_id' => $user->id,
-            'auction_id' => $id
+            'auction_id' => $id,
         ]);
-        $auction->update(['user_id' => $user->id]);
+        $auction->update(['user_id' => $user->id, 'best_bid' => $amount]);
         DB::commit();
         return response()->json(new AuctionResource(Auction::find($auction->id)));
     }
