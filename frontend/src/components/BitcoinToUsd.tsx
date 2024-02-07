@@ -17,7 +17,6 @@ export default function BitcoinToUsd() {
     if (!btcToUsd) {
         return null;
     }
-    console.log(btcToUsd);
     const average = (btcToUsd[0] + btcToUsd[2]) / 2;
     return (
         <div className='text-white'>

@@ -36,9 +36,11 @@ class AuctionController extends Controller
             $query = $query->where('start_time', '<', $to);
         }
         if (intval($onlyActive) == 1) {
-            $query = $query->where('status', 'active')->where('start_time', '<', now());
+            $now = now();
+            $query = $query->where('status', 'active')->where('start_time', '<', $now)
+                ->where('end_time', '>', $now);
         }
-        $auctions =  $query->paginate($size, ['*'], 'page', $page);
+        $auctions =  $query->select('auctions.*')->paginate($size, ['*'], 'page', $page);
         return response()->json(new AuctionCollection($auctions));
     }
 
