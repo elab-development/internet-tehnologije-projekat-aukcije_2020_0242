@@ -1,0 +1,14 @@
+.image {
+    background-image: url('https://taylorwells.com.au/wp-content/uploads/2020/03/auction-1024x440.png');
+    background-size: cover;
+    height: 50vh;
+}
+
+.product {
+    cursor: pointer;
+    margin-bottom: 20px;
+}
+
+.input-wrapper>div {
+    margin-top: 0 !important;
+}
